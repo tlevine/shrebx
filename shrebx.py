@@ -2,14 +2,14 @@ from random import sample
 from string import ascii_letters, digits
 from configparser import ConfigParser, NoOptionError
 
-def shrebx(file_name = '.secrets', section_name = 'secrets',
-    random_fields = ['DATABASE_PASSWORD'], manual_fields = ['SECRET_KEY'],
-    key_length = 62):
-    'Read and write secrets from a configuration file.'
+def shrebx(file_name,
+           section_name = 'secrets', key_length = 62,
+           random_fields = ['DATABASE_PASSWORD'],
+           manual_fields = ['SECRET_KEY']):
+    'Load secrets from a configuration file, generating them if needed.'
 
-    config_file = file_name
     c = ConfigParser()
-    c.read(config_file)
+    c.read(file_name)
     if section_name not in c.sections():
         c.add_section(section_name)
     section = c[section_name]
@@ -27,7 +27,7 @@ def shrebx(file_name = '.secrets', section_name = 'secrets',
             c.set(section_name, random_field, key)
         output[random_field] = c.get(section_name, random_field)
 
-    with open(config_file, 'w') as fp:
+    with open(file_name, 'w') as fp:
         c.write(fp)
 
     return output
