@@ -1,14 +1,13 @@
-import os
 from random import sample
 from string import ascii_letters, digits
 from configparser import ConfigParser, NoOptionError
 
-def shrebx(BASE_DIR, file_name = '.secrets', section_name = 'secrets',
+def shrebx(file_name = '.secrets', section_name = 'secrets',
     random_fields = ['DATABASE_PASSWORD'], manual_fields = ['SECRET_KEY'],
     key_length = 62):
     'Read and write secrets from a configuration file.'
 
-    config_file = os.path.join(BASE_DIR, file_name)
+    config_file = file_name
     c = ConfigParser()
     c.read(config_file)
     if section_name not in c.sections():
